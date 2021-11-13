@@ -7,16 +7,28 @@ public class Calculator {
 		System.out.println("첫번째 입력 값 : ");
 		int first = scanner.nextInt();
 		System.out.println(first);
+		
+		System.out.println("사칙연산 기호 :  (ex> +, -, *,  /)");
+		String symbol = scanner.next(); // 문자열 1글자만 받을 거면 .next()로 받아 넘겨준다.
+		System.out.println(symbol);
+		
 		System.out.println("두번째 입력 값 : ");
 		int second = scanner.nextInt();
 		System.out.println(second);
 		
-		
-		System.out.println("덧셈 : " + (first+second)); //덧셈 : 34 -> 문자열과 더하는데, 숫자부터 먼저 계산하고 문자열로 변환되도록 괄호를 먼저 치자.
-		System.out.println("뺄셈 : " + (first-second)); //덧셈 : 34 -> 문자열과 더하는데, 숫자부터 먼저 계산하고 문자열로 변환되도록 괄호를 먼저 치자.
-		System.out.println("곱셈 : " + (first*second)); //덧셈 : 34 -> 문자열과 더하는데, 숫자부터 먼저 계산하고 문자열로 변환되도록 괄호를 먼저 치자.
-		System.out.println("나눗셈 : " + (first/second)); //덧셈 : 34 -> 문자열과 더하는데, 숫자부터 먼저 계산하고 문자열로 변환되도록 괄호를 먼저 치자.
-		
+		// .equals : 값자체 비교,   == id(주소값)비교 
+		if (symbol.equals("+")) {
+			System.out.println("덧셈 : " + (first + second));
+		} else if(symbol.equals("-")){
+			System.out.println("뺄셈 : " + (first - second));
+		} else if(symbol.equals("*")){
+			System.out.println("곱셈 : " + (first * second));
+		} else if(symbol.equals("/")){
+			System.out.println("나눗셈 : " + (first / second));
+		} else {
+			// 사칙연산외 다른 것을 입력한 경우도 처리하자!!!!!!!!!!!!
+			System.out.println("사칙연산 기호중에 1개를 입력하세요.");
+		}
 
 	}
 }
