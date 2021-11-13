@@ -1,60 +1,118 @@
 import java.util.Scanner;
 
 public class Calculator {
-	public static void main(String[] args) {
-		
-		Scanner scanner = new Scanner(System.in); // 스캐너는 한번생성후, 여러번 입력 받을 수 있다.
-		// 1. 처음 입력받는 피연산자1은 그대로 받아준다.
-		//    2번째 입력(기호) + 3번째입력(피연산자2) -> 결과값 -> 다시 첫번째 연산자로 활용 -> 무한반복 
-		//    2~3번째 입력 코드가 반복되니 -> 반복문으로 해결하자.
+	// 0. 메인함수 위, 클래스 아래 부분에 메소드를 static으로 작성해준다.
+	// *1. static(클래스변수, 메인함수 등에 붙어서 메모리에 1순위로 올라가야하는 것들)이 붙은 함수는, static이 붙은 메소드만 호출 가능하므로,
+	//  -> main 메소드에서 호출하려면, static을 붙이고 메서드를 만들어야한다.
+	static int getFirstValue(Scanner scanner) {
 		System.out.println("첫번째 입력 값 : ");
 		int first = scanner.nextInt();
 		System.out.println(first);
 		
-		//3. 자.. result는.. 반복문을 돌때마다 업데이트되는 first로 쓸 것이다. 
-		// 업데이트전) 에는  직전까지의 first로 사용되며,    ex>                = result(직전까지의 first) + second 
-		// 업데이트후) 에는   result 사칙 second 한  결과값이 된다. ex> result =  
-		//int result = 0; // 최초의 first를 넣어줘야한다.
-		int result = first;
+		return first;		// 기존코드에서 return만 생겨난다.
+	}
+	// 2. static으로 시작하며, 사칙연산기호 -> string을 반환해줘야한다.
+	static String getSymbol(Scanner scanner) {
+		System.out.println("사칙연산 기호 :  (ex> +, -, *,  /)");
+		String symbol = scanner.next();
+		System.out.println(symbol);
 		
-		while(true) {
-			System.out.println("사칙연산 기호 :  (ex> +, -, *,  /)");
-			String symbol = scanner.next();
-			System.out.println(symbol);
+		return symbol; 
+	}
+	
+	// 3.
+	static int getSecondValue(Scanner scanner) {
+		System.out.println("두번째 입력 값 : ");
+		int second = scanner.nextInt();
+		System.out.println(second);
+		
+		return second;
+	}
+	
+	
+	// 4. fisrt, symbol, second를 받아서, 각 조건에 따라 계산해주는 메소드를 작성한다. -> 계산의 결과는 int를 반환할 것.
+	static int calculate(int first, String symbol, int second) {
+		// 4-1. main에 있던 코드를 복붙하면 에러가 많이 난다. 하나씩 고쳐주면 된다.
+		// ***업데이트되는 직전까지의 first가 result 업데이트 변수였다. -> 하지만, 메소드에서는 first에다가 그 직전까지의 first가 들어올 것이므로, first로 수정한다.
+		// ***대신 업데이트된 first는 result에 담아서 result로 return하면 된다.
+		
+		int result =0 ; // *****직전까지의 result인 [first]에 의해  메소드에서 업데이트되어-> return될 변수다. 선언만 해놓는다.*****
+		
+		if (symbol.equals("+")) {
+			System.out.println("덧셈 : " + (first + second)); // 업데이트 전 처리해야 (직전까지의 first) + 새로운 second 연산됨. 업데이트된
+			result = first + second;
+		} else if (symbol.equals("-")) {
+			System.out.println("뺄셈 : " + (first - second));
+			result = first - second;
+		} else if (symbol.equals("*")) {
+			System.out.println("곱셈 : " + (first * second));
+			result = first * second;
+		} else if (symbol.equals("/")) {
+			System.out.println("나눗셈 : " + (first / second));
+			result = first / second;
+		} else {
+			System.out.println("사칙연산 기호중에 1개를 입력하세요.");
+		}
+		
+		return result; 
+		
+	}
+	
+	// 6. 최종결과 출력부분도 메서드로 구현해보자. 현업에 가면 1개의 라인이라도 메소드로 분리하는 경험을 할 수 있다.
+	static void print(int result) {
+		System.out.println("최종결과 값 : " + result); 
+	}
+	
+	public static void main(String[] args) {
+
+		Scanner scanner = new Scanner(System.in);
+//		System.out.println("첫번째 입력 값 : ");
+//		int first = scanner.nextInt();
+//		System.out.println(first);
+		
+		int first = getFirstValue(scanner);
+
+		int result = first;
+
+		while (true) {
+//			System.out.println("사칙연산 기호 :  (ex> +, -, *,  /)");
+//			String symbol = scanner.next();
+//			System.out.println(symbol);
+			String symbol = getSymbol(scanner);
 			
-			// 마지막. 무한반복을 끊어주도록 입력받을 수 있다. 
-			if (symbol.equals("quit") ) {
-				System.out.println("최종결과 값 : "+result); // 최종결과 -> 직전까지 업데이트 된 first
+
+			if (symbol.equals("quit")) {
+//				System.out.println("최종결과 값 : " + result); // 최종결과 -> 직전까지 업데이트 된 first
+				print(result);
 				break;
 			}
+
+//			System.out.println("두번째 입력 값 : ");
+//			int second = scanner.nextInt();
+//			System.out.println(second);
+			int second = getSecondValue(scanner);
+
+//			if (symbol.equals("+")) {
+//				System.out.println("덧셈 : " + (result + second)); // 업데이트 전 처리해야 (직전까지의 first) + 새로운 second 연산됨. 업데이트된
+//				result = result + second;
+//			} else if (symbol.equals("-")) {
+//				System.out.println("뺄셈 : " + (result - second));
+//				result = result - second;
+//			} else if (symbol.equals("*")) {
+//				System.out.println("곱셈 : " + (result * second));
+//				result = result * second;
+//			} else if (symbol.equals("/")) {
+//				System.out.println("나눗셈 : " + (result / second));
+//				result = result / second;
+//			} else {
+//				System.out.println("사칙연산 기호중에 1개를 입력하세요.");
+//			}
 			
-			System.out.println("두번째 입력 값 : ");
-			int second = scanner.nextInt();
-			System.out.println(second);
+			//5. **연산의 결과(업데이트된 first)를 메서드에서 받아오니, 업데이트변수에 할당해준다.**
+			// -> 첫번째 인자에는 직쩐까지의 first가 들어가야한다. 업데이트되는 반복문의 일부를 메서드화 시켰기 때문에 헤깔릴 수 있다.
+			result = calculate(result, symbol, second);
 			
-			// 2. 연산결과값을 변수에 저장을 해놔야지, 다음 first가 될 수있다.
-			// int result = 0; -> 업데이트 되어야하는 변수는, 반복문 위의 변수로 둔다!!!
-			// 4. 연산결과를 출력하지말고 변수에 저장한다.
-			if (symbol.equals("+")) {
-				//result = first + second;
-				//5. 직전까지의 result가 first의 값이다.  -> my) 
-				System.out.println("덧셈 : " + (result + second)); // 업데이트 전 처리해야 (직전까지의 first) + 새로운 second 연산됨. 업데이트된 first로 하면안돼지ㅣ..
-				result = result + second;
-			} else if(symbol.equals("-")){
-				System.out.println("뺄셈 : " + (result - second));
-				result = result - second;
-			} else if(symbol.equals("*")){
-				System.out.println("곱셈 : " + (result * second));
-				result = result * second;
-			} else if(symbol.equals("/")){
-				System.out.println("나눗셈 : " + (result / second));
-				result = result / second;
-			} else {
-				// 사칙연산외 다른 것을 입력한 경우도 처리하자!!!!!!!!!!!!
-				System.out.println("사칙연산 기호중에 1개를 입력하세요.");
-			} //연산결과 result -> first로 업데이트 되어야한다. 
-			
-			
+
 		}
 
 	}
