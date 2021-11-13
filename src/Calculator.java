@@ -1,30 +1,9 @@
 import java.util.Scanner;
 
 public class Calculator {
-	static int getFirstValue(Scanner scanner) {
-		System.out.println("첫번째 입력 값 : ");
-		int first = scanner.nextInt();
-		System.out.println(first);
-		
-		return first;	
-	}
-	static String getSymbol(Scanner scanner) {
-		System.out.println("사칙연산 기호 :  (ex> +, -, *,  /)");
-		String symbol = scanner.next();
-		System.out.println(symbol);
-		
-		return symbol; 
-	}
-	
-	static int getSecondValue(Scanner scanner) {
-		System.out.println("두번째 입력 값 : ");
-		int second = scanner.nextInt();
-		System.out.println(second);
-		
-		return second;
-	}
-	
-	
+
+	// * 3. static 붙어있는 메서드 -> 클래스 메서드 -> **new로 객체를 안만들어도 사용가능한 메서드**
+	// int first = scanner.nextInt(); -> public int nextInt() {} -> **static이 추가로 안붙은 메서드 -> new 안스턴스를 만들어서 호출해야하는 메서드다.
 	static int calculate(int first, String symbol, int second) {
 		int result =0 ; 
 		
@@ -47,29 +26,26 @@ public class Calculator {
 		return result; 
 		
 	}
-	
-	static void print(int result) {
-		System.out.println("최종결과 값 : " + result); 
-	}
+
 	
 	public static void main(String[] args) {
 
 		Scanner scanner = new Scanner(System.in);
 		
-		int first = getFirstValue(scanner);
+		int first = Input.getFirstValue(scanner);
 
 		int result = first;
 
 		while (true) {
-			String symbol = getSymbol(scanner);
+			String symbol = Input.getSymbol(scanner);
 			
 
 			if (symbol.equals("quit")) {
-				print(result);
+				Output.print(result);
 				break;
 			}
 
-			int second = getSecondValue(scanner);
+			int second = Input.getSecondValue(scanner);
 
 			result = calculate(result, symbol, second);
 			
