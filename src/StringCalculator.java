@@ -7,31 +7,26 @@ public class StringCalculator {
 		String value = scanner.nextLine();
 		System.out.println("입력 값 : " + value);
 		
-		String[] values = value.split(" " ); 
+		String[] values = value.split(" " );
 		int first = Integer.parseInt(values[0]);
 		System.out.println("first : " + first);
 		
-		int i = 1;
-		//6. calculate()메서드는 가져가서 사용할 예정. 우리는 main메서드의 로직만 모방한다.(Calculator의 메서드는 사용. Main만 바꾸는 과정인듯?)
-		// first -> for문위변수result에 [최초의first]주입후, 반복문에서 [직전까지의fisrt] -> [현재 업데이트된 first]로 계속 업데이트 되도록 한다.
+		// 11. 끝을 안다면(배열에 담김, 무한반복 quit필요없음) ---> for문으로 바꾸는 게 훨씬 짧고 좋다.
+		//1) int i = 1; -> while문은 도는 기준(주로index)을 따로 선언해서 사용해야하는데 for문은 안에서 한다.  2) 기준을 증가시키는 부분도 while문 내부에서 한줄 따로 해줘야함.
 		int result = first;
-		while( i < values.length) {
+		//while( i < values.length) {
+		//i++ 대신 2씩 증가시키려면 그냥 할당문을 쓰면된다. i=i+2, i+=2
+		for(int i = 1; i < values.length; i += 2) {
 			String symbol = values[i];
 			System.out.println("symbol : " + symbol);
 			
 			int second= Integer.parseInt(values[i+1]); 
 			System.out.println("second : " + second);
 			
-			//7. 전에 만들어둔 Cacluator 클래스에서 main만 무시하고 메서드는 쓴다.
-			// first, symbol, second를 넣어주고, 업데이트된 first를 int로 반환받는다.  static int calculate(int first, String symbol, int second)
 			result = Calculator.calculate(result, symbol, second);
-			
-			//8. 무한루프도는 이유는 기준i를 증가안시켜서 그렇다.
-			//** i기준으로 2개씩(i, i+1) 뽑았다면, 그다음 값은 i+2에서 2개를 뽑아야한다. 
-			i = i + 2;
+			//2) i = i + 2;  //while문은 기준을 증가시키는 것도 따로 한줄 내어야하는데 for문은 식안에 들어간다.
 		}
 		
-		//9. Output도 기존 메서드를 활용하면 된다. input -> Main만 달라졌다.
 		Output.print(result);
 		
 	}
